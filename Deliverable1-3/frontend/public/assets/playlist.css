@@ -1,0 +1,95 @@
+.playlistImage {
+    grid-column-start: 2;
+    grid-column-end: 4; 
+    grid-row-start: 2; 
+    grid-row-end: 5; 
+    background-color: grey; 
+    width: auto; 
+    height: 100%; 
+    margin: 0px;
+    padding: 0px;
+    object-fit: cover;
+}
+
+.playlistTitle {
+    grid-column-start: 4;   
+    grid-column-end: 7; 
+    grid-row-start: 2;
+    grid-row-end: 3; 
+    background-color: yellow; 
+    margin: 0px; 
+    padding: 0px; 
+}
+
+.playlistDescription {
+    grid-column-start: 4;   
+    grid-column-end: 8; 
+    grid-row-start: 3; 
+    grid-row-end: 4; 
+    margin: 0px; 
+    padding: 0px; 
+    background-color: orange; 
+}
+
+.playlistAuthor {
+    grid-column-start: 4;   
+    grid-column-end: 8; 
+    grid-row-start: 1; 
+    grid-row-end: 2; 
+    background-color: green; 
+    margin: 0px; 
+    padding: 0px; 
+}
+
+.playlistSongs {
+    grid-column-start: 2;   
+    grid-column-end: 9; 
+    grid-row-start: 5; 
+    grid-row-end: 10; 
+    background-color: blue; 
+    margin: 0px; 
+    padding: 5px; 
+}
+
+.playlistSong {
+    height: 10vh;
+    width: 100%;
+
+    display: grid; 
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+}
+
+.playlistSongImage {
+    grid-column-start: 1;   
+    grid-column-end: 3; 
+    grid-row-start: 1; 
+    grid-row-end: 9; 
+    background-color: grey; 
+    width: auto; 
+    height: 100%; 
+    margin: 0px;
+    padding: 0px;
+    object-fit: cover;
+}
+
+.playlistSongTitle {
+    grid-column-start: 3;   
+    grid-column-end: 6; 
+    grid-row-start: 1; 
+    grid-row-end: 5; 
+    background-color: yellow; 
+    margin: 0px; 
+    padding: 0px; 
+}
+
+.playlistSongArtist {
+    grid-column-start: 3;   
+    grid-column-end: 6; 
+    grid-row-start: 5; 
+    grid-row-end: 9; 
+    background-color: green; 
+    margin: 0px; 
+    padding: 0px; 
+}   
+

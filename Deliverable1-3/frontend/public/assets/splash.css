@@ -1,0 +1,34 @@
+.Splash {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh;
+    width: 100vw;
+}
+
+.SplashCenterContainer {
+    width: 40%; 
+    height: 60%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    gap: 10px;
+    overflow: hidden;
+}
+
+
+.SplashTitle {
+    max-width: 60%; /* Ensure the image does not overflow */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure the image is treated as a block element */
+    margin: 0 auto;
+}
+
+.SplashLogin {
+    max-width: 20%; /* Ensure the image does not overflow */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure the image is treated as a block element */
+    margin: 0 auto; /* Center the image horizontally */
+}
