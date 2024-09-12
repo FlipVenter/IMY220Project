@@ -16,18 +16,18 @@ const App = () => {
         <Router>
             <nav className = "topRibbon">
               <div>
-                <Link to="/Splash" style={{ padding: '0px', margin: '0px' }}>
+                <Link to="/Splash">
                   <img className = "mixTape" src = "/assets/images/MixTape.png" alt="MixTape Title"/>
                 </Link>
               </div>
               <div>
-                <Link to="/" style={{ padding: '0px', margin: '0px' }}>Home</Link>
+                <Link to="/">Home</Link>
               </div>
               <div>
-                <Link to="/Profile" style={{ padding: '0px', margin: '0px' }}>Profile</Link>
+                <Link to="/Profile">Profile</Link>
               </div>
               <div>
-                <Link to="/Register" style={{ padding: '0px', margin: '0px' }}>Register</Link>
+                <Link to="/Login">Login</Link>
               </div>
             </nav>
           <Routes>

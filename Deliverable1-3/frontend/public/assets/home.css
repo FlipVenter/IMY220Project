@@ -7,31 +7,31 @@
     height: 100%; 
     display: flex; 
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
-    background-color: blue;
     margin: 0px; 
     padding: 0px; 
+    overflow: hidden; 
+    border-radius: 10px;
 }
 
 .playlist {
     display: grid; 
     grid-template-columns: repeat(19, 1fr);
-    grid-template-rows: repeat(5, 1fr); 
-    background-color: red; 
+    grid-template-rows: repeat(9, 1fr); 
+    background-color: white; 
     width: 100%; 
     height: 15vh;
     margin: 0px; 
     padding: 0px; 
+    border-radius: 10px;
 }
-
 .playlistTitle {
     grid-column-start: 5;   
     grid-column-end: 18; 
-    grid-row-start: 1;
+    grid-row-start: 1; 
     grid-row-end: 2; 
-    background-color: yellow; 
     margin: 0px; 
     padding: 0px; 
 }
@@ -39,7 +39,7 @@
 .playlistAuthor {
     grid-column-start: 5;   
     grid-column-end: 18; 
-    grid-row-start: 2; 
+    grid-row-start: 2;
     grid-row-end: 3; 
     background-color: green; 
     margin: 0px; 
@@ -53,14 +53,14 @@
     grid-row-end: 4; 
     margin: 0px; 
     padding: 0px; 
-    background-color: orange; 
+    background-color: rgb(83, 58, 10); 
 }
 
 .playlistImage {
-    grid-column-start: 2;
+    grid-column-start: 1;
     grid-column-end: 4; 
-    grid-row-start: 2; 
-    grid-row-end: 5; 
+    grid-row-start: 1; 
+    grid-row-end: 6; 
     background-color: grey; 
     width: auto; 
     height: 100%; 
@@ -70,14 +70,30 @@
 }
 
 .playlistButton {
-    grid-column-start: 18; 
+    grid-column-start: 17; 
     grid-column-end: 19; 
-    grid-row-start: 2; 
-    grid-row-end: 5; 
-    background-color: black; 
+    grid-row-start: 3; 
+    grid-row-end: 4; 
+    background-color: rgb(141, 137, 137); 
+    
+    text-decoration: none;
     color: white; 
     margin: 0px; 
     padding: 0px; 
+
+    /* Reset default button styling */
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.playListButton:focus {
+    color: orange;
+}
+
+* a {
+    color :white;
 }
 
 .homeFiltersContainer {
@@ -92,5 +108,29 @@
     grid-row-end: 2;
 
     padding: 5px; 
+}
+
+.searchBar {
+    border: none; 
+    border-radius: 10px;
+    padding: 5px; 
+}
+
+.collectionSelector select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,123,255,.25); /* Light blue focus ring */
+}
+
+.filterBox {
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: white; /* Blue background */
+    color: black;
+    cursor: pointer;
+}
+
+.filterBox:hover {
+    background-color: #ff4f0a; /* Darker blue on hover */
 }
 

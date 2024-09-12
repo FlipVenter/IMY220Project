@@ -17,6 +17,10 @@ body {
     box-sizing: border-box;
 }
 
+* a {
+    text-decoration: none; 
+}
+
 /* this is used for the top navagation bar */
 .topRibbon {
     overflow: hidden;
@@ -38,6 +42,7 @@ body {
     padding: 20px 22px;
     text-decoration: none;
     font-size: 20px;
+    
 }
 
 .topRibbon nav img{

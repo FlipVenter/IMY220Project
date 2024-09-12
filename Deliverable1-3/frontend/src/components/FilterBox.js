@@ -12,12 +12,8 @@ class FiltersBox extends React.Component {
                         <option value = "songs">Songs</option>
                     </select>
                 </div>
-                <div className = "searchBar">
-                    <input type = "text" placeholder = "Search..."></input>
-                </div>
-                <div className = "filterBox">
-                    <button>Filter</button>
-                </div>
+                <input className = "searchBar" type = "text" placeholder = "Search..."></input>
+                <button className = "filterBox">Filter</button>
             </div>
         );
     }
