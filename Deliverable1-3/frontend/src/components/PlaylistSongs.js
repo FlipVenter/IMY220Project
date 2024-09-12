@@ -15,8 +15,8 @@ class PlaylistSongs extends React.Component {
         return (
             <div className="playlistSong">
                 <img className="playlistSongImage" src={this.state.pic} alt="song"></img>
-                <p className="playlistSongTitle"><strong>Title:</strong> {this.state.title}</p>
-                <p className="playlistSongArtist"><strong>Artist:</strong> {this.state.artist}</p>
+                <p className="playlistSongTitle"> {this.state.title}</p>
+                <p className="playlistSongArtist"> {this.state.artist}</p>
             </div>
         );
     }

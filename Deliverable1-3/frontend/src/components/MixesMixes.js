@@ -15,10 +15,9 @@ class MixesMixes extends Component {
     render() {
         return (
             <div className = "profileMixes">
-                <p className = "profileMixesTitle"><strong>Title:</strong> {this.state.title}</p>
-                <p className = "profileMixesAuthor"><strong>Author:</strong> {this.state.author}</p>
-                {/* <p className = "profileMixesDescription"><strong>Description:</strong> {this.state.description}</p> */}
-                <img className = "profileMixesImage" src = {this.state.image} alt = "playlist"></img>
+                <p className = "profileMixesTitle"> {this.state.title}</p>
+                <p className = "profileMixesAuthor"> {this.state.author}</p>
+                <img className = "profileMixesImage" src ='/assets/images/image.png' alt = "playlist" ></img>
                 <button className = "mixesButton">More</button>
             </div>
         );

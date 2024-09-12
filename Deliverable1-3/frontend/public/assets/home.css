@@ -18,23 +18,28 @@
 
 .playlist {
     display: grid; 
-    grid-template-columns: repeat(19, 1fr);
-    grid-template-rows: repeat(9, 1fr); 
+    grid-template-columns: repeat(59, 1fr);
+    grid-template-rows: repeat(19, 1fr); 
     background-color: white; 
     width: 100%; 
     height: 15vh;
-    margin: 0px; 
-    padding: 0px; 
     border-radius: 10px;
+    margin: 0px;
+    padding: 0px;
 }
 
 .playlistTitle {
-    grid-column-start: 5;   
-    grid-column-end: 18; 
+    grid-column-start: 50;   
+    grid-column-end: 59; 
     grid-row-start: 1; 
-    grid-row-end: 2; 
-    margin: 0px; 
-    padding: 0px; 
+    grid-row-end: 10; 
+    background-color: #ff4f0a;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
 
 .playlistAuthor {
@@ -53,39 +58,38 @@
     grid-row-end: 4; 
     margin: 0px; 
     padding: 0px; 
-    background-color: rgb(83, 58, 10); 
 }
 
 .playlistImage {
     grid-column-start: 1;
-    grid-column-end: 4; 
+    grid-column-end: 10; 
     grid-row-start: 1; 
-    grid-row-end: 10; 
-    background-color: grey; 
-    width: auto; 
+    grid-row-end: 20; 
+    width: 100%; 
     height: 100%; 
-    margin: 0px;
-    padding: 0px;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    background-color: #ff4f0a;
 }
 
 .playlistButton {
-    grid-column-start: 17; 
-    grid-column-end: 19; 
-    grid-row-start: 3; 
-    grid-row-end: 4; 
+    grid-column-start: 55; 
+    grid-column-end: 59; 
+    grid-row-start: 13; 
+    grid-row-end: 19; 
     background-color: rgb(141, 137, 137); 
     
     text-decoration: none;
     color: white; 
     margin: 0px; 
-    padding: 0px; 
+    padding: 2px; 
 
     /* Reset default button styling */
     border: none;
     outline: none;
     cursor: pointer;
     border-radius: 10px;
+    font-size: 0.7em;
 }
 
 .playListButton:focus {

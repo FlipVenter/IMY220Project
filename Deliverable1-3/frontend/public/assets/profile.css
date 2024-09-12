@@ -3,7 +3,6 @@
     grid-column-end: 4; 
     grid-row-start: 1;
     grid-row-end: 9 ; 
-    background-color: red; 
     margin: 5px; 
 
     display: grid; 
@@ -17,7 +16,12 @@
     grid-column-end: 7; 
     grid-row-start: 2; 
     grid-row-end: 9;
-    background-color: yellow;
+    background-image: url('./images/profileImage.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%; 
+    width: 30vh;
+    height: 30vh; 
 }
 
 .profileName {
@@ -25,7 +29,7 @@
     grid-column-end: 5; 
     grid-row-start: 9;
     grid-row-end: 10;
-    background-color: orange;
+    color: grey; 
 }
 
 .profilePronouns {
@@ -33,7 +37,7 @@
     grid-column-end: 7; 
     grid-row-start: 9;
     grid-row-end: 10;
-    background-color: purple;
+    color: grey; 
 }
 
 .profileUsername {
@@ -41,7 +45,7 @@
     grid-column-end: 7; 
     grid-row-start: 10;
     grid-row-end: 11;
-    background-color: pink;
+    color: grey; 
 }
 
 .profileBio {
@@ -49,7 +53,7 @@
     grid-column-end: 7; 
     grid-row-start: 11;
     grid-row-end: 15;
-    background-color: brown;
+    color: grey; 
 }
 
 .profileLinks {
@@ -57,7 +61,7 @@
     grid-column-end: 7; 
     grid-row-start: 15;
     grid-row-end: 17;
-    background-color: grey;
+    color: grey; 
 }
 
 .profileEditButton {
@@ -65,8 +69,11 @@
     grid-column-end: 7; 
     grid-row-start: 18;
     grid-row-end: 19;
-    background-color: black;
+    background-color: grey;
     color: white; 
+    border-radius: 10px; 
+    border: none; 
+    padding: 2px; 
 }
 
 .profileMixesBox {
@@ -74,7 +81,6 @@
     grid-column-end: 7; 
     grid-row-start: 1;
     grid-row-end: 9 ; 
-    background-color: blue; 
     margin: 5px;
 
     display: grid; 
@@ -87,7 +93,7 @@
     grid-column-end: 7;
     grid-row-start: 1;
     grid-row-end: 3;
-    background-color: red;
+    color: grey; 
 
     display: flex;
     flex-direction: row;
@@ -100,7 +106,6 @@
     grid-column-end: 7;
     grid-row-start: 3;
     grid-row-end: 4;
-    background-color: yellow;
 
     display: flex;
     flex-direction: row;
@@ -113,7 +118,6 @@
     grid-column-end: 7;
     grid-row-start: 4;
     grid-row-end: 19;
-    background-color: rgb(61, 48, 122);
 
     display: flex; 
     flex-direction: column; 
@@ -121,13 +125,15 @@
     align-items: center;
     overflow: hidden; 
     gap: 5px;
+    border-radius: 10px; 
 
 }
 
 .profileMixes {
     height: 15vh; 
     width: 100%;
-    background-color: rgb(141, 117, 73);
+    background-color: white;
+    border-radius: 10px;
     font: 10%; 
 
     display: grid; 
@@ -137,29 +143,32 @@
 }
 
 .profileMixesTitle {
-    grid-column-start: 4; 
+    grid-column-start: 3; 
     grid-column-end: 7;
     grid-row-start: 1;
     grid-row-end: 2;
-    background-color: red;
+    color: black; 
+    font-size: 1.2em; 
 
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    margin-left: 3px; 
 } 
 
 .profileMixesAuthor {
-    grid-column-start: 4; 
+    grid-column-start: 3; 
     grid-column-end: 7;
     grid-row-start: 2;
     grid-row-end: 3;
-    background-color: yellow;
+    font-size: 0.8em; 
 
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    margin-left: 3px; 
 }
 
 .profileMixesDescription {
@@ -172,18 +181,27 @@
 
 .profileMixesImage {
     grid-column-start: 1; 
-    grid-column-end: 4;
+    grid-column-end: 3;
     grid-row-start: 1;
     grid-row-end: 9;
-    background-color: green;
+
+    width: 100%; 
+    height: 100%; 
+    border-radius: 10px;
+
+    background-size: cover;
+    background-position: center;
+    overflow: hidden; 
 } 
 
 .mixesButton {
     grid-column-start: 6; 
     grid-column-end: 8;
-    grid-row-start: 7;
-    grid-row-end: 9;
-    background-color: black;
+    grid-row-start: 6;
+    grid-row-end: 7;
+    border-radius: 10px;
+    border: none; 
+    background-color: grey;
     color: white; 
 }
 
@@ -192,7 +210,6 @@
     grid-column-end: 9; 
     grid-row-start: 1;
     grid-row-end: 9; 
-    background-color: green; 
     margin: 5px;
 
     display: grid;
@@ -201,11 +218,16 @@
 }
 
 .profileFriendsTitle {
-    grid-column-start: 2; 
-    grid-column-end: 7; 
+    grid-column-start: 1; 
+    grid-column-end: 8; 
     grid-row-start: 1;
     grid-row-end: 3; 
-    background-color: red; 
+    color: grey;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .friendsListBox {
@@ -213,7 +235,6 @@
     grid-column-end: 7; 
     grid-row-start: 3;
     grid-row-end: 19; 
-    background-color: yellow; 
 
     gap: 5px;
     overflow: hidden; 
@@ -228,8 +249,9 @@
 .profileFriends {
     height: 10vh; 
     width: 100%;
-    background-color: rgb(141, 117, 73);
+    background-color: white;
     font: 10%; 
+    border-radius: 10px; 
 
     display: grid; 
     grid-template-columns: repeat(7, 1fr);
@@ -239,18 +261,22 @@
 
 .profileFriendsImage {
     grid-column-start: 1; 
-    grid-column-end: 4;
+    grid-column-end: 3;
     grid-row-start: 1;
     grid-row-end: 9;
-    background-color: green;
+    border-radius: 10px; 
+    background-size: cover;
+    background-position: center;
+    width: 100%; 
+    height: 100%; 
 }
 
 .profileFriendsName {
-    grid-column-start: 4; 
+    grid-column-start: 3; 
     grid-column-end: 7;
     grid-row-start: 1;
     grid-row-end: 2;
-    background-color: red;
+    font-size: 0.65em;
 
     display: flex;
     flex-direction: row;
@@ -260,9 +286,13 @@
 
 .friendsButton {
     grid-column-start: 5; 
-    grid-column-end: 7; 
-    grid-row-start: 7;
-    grid-row-end: 9;
-    background-color: black;
+    grid-column-end: 8; 
+    grid-row-start: 6;
+    grid-row-end: 7;
+    background-color: grey;
     color: white; 
+    text-decoration: none;
+    border: none; 
+    border-radius: 10px;
+    font-size: 80%;
 }

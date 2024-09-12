@@ -13,7 +13,7 @@ class FriendsList extends React.Component {
     render() {
         return (
             <div className = "profileFriends">
-                <img className = "profileFriendsImage" src = {this.state.profilePic} alt = "profile"></img>
+                <img className = "profileFriendsImage" src = "/assets/images/profileImage.png" alt = "profile"></img>
                 <p className = "profileFriendsName">{this.state.name}</p>
                 <button className = "friendsButton">Visit</button>
             </div>

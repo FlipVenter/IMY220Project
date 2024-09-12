@@ -10,8 +10,14 @@ class ProfileInfo extends React.Component {
                 <div className = "profileName">John Doe</div>
                 <div className = "profilePronouns">He/him</div>
                 <div className = "profileUsername">Flip</div>
-                <div className = "profileBio">San Francisco, CA</div>
-                <div className = "profileLinks"></div>
+                <div className = "profileBio">
+                    San Francisco, CA
+                    <br />  
+                    25
+                    <br />
+                    studying at UP
+                </div>
+                <div className = "profileLinks">//onlyfnas</div>
                 <button className = "profileEditButton">Edit</button>
             </div>
         );
