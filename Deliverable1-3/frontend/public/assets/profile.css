@@ -88,6 +88,20 @@
     grid-template-rows: repeat(19, 1fr);
 }
 
+.profileCreatePlaylist {
+    grid-column-start: 2; 
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    color: grey;
+    background-color: white;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .profileMixTitle {
     grid-column-start: 2; 
     grid-column-end: 7;
@@ -197,6 +211,17 @@
 .mixesButton {
     grid-column-start: 6; 
     grid-column-end: 8;
+    grid-row-start: 6;
+    grid-row-end: 7;
+    border-radius: 10px;
+    border: none; 
+    background-color: grey;
+    color: white; 
+}
+
+.editPlaylist {
+    grid-column-start: 4; 
+    grid-column-end: 6;
     grid-row-start: 6;
     grid-row-end: 7;
     border-radius: 10px;

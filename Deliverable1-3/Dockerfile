@@ -1,23 +1,29 @@
-# Use the official Node.js image as the base image
-FROM node:14
+FROM node:20.111-alpine AS base
 
-# Set the working directory inside the container
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+FROM base AS deps
 
-# Install dependencies
+COPY package.json package-lock.json ./
+
 RUN npm install
 
-# Copy the rest of the application code to the working directory
 COPY . .
 
-# Build the application
-RUN npm run build
+RUN npm run build:backend && npm run build:frontend
 
-# Expose the port the app runs on
-EXPOSE 3000
+FROM base AS final
 
-# Define the command to run the application
-CMD ["npm", "start"]
+ENV NODE_ENV production
+
+USER node
+
+COPY package.json .
+
+COPY --from=deps /usr/src/app/node_modules ./node_modules
+COPY --from=deps /usr/src/app/frontend/public ./frontend/public
+
+# Expose the port that the application listens on.
+EXPOSE 1337
+
+CMD ["node", "dist/server.js"]

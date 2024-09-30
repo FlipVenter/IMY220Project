@@ -12,9 +12,10 @@ class PlaylistPage extends React.Component {
         return (
             <div className = "PlaylistContainer">
                 <div className="playlistTitle">License to chill</div>
-                <img className = "playlistImage" src = "https://i.scdn.co/image/ab67706f00000003b3b3f3b3f3b3f3b3f3b3f3b3" alt = "playlist"></img>
+                <img className = "playlistImage" src = "/assets/images/starboy.png" alt = "playlist"></img>
                  <div className="playlistDescription">A collection of songs to help you relax and unwind</div>
                 <div className="playlistAuthor">Created by: Spotify</div>
+                <div className='addSongButton'>add Songs</div>
                 <div className="playlistSongs">
                     {songList.map((song, index) => (
                             <PlaylistSongs key={index} {...song} />

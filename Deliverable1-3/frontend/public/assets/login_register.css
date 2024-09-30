@@ -1,7 +1,4 @@
-body {
-    background-color: black !important;
-    background-image: none; 
-}
+
 
 .LoginContainer {
     height: 100vh; 
@@ -55,6 +52,11 @@ body {
     grid-column-end: 13;
     grid-row-start: 14;
     grid-row-end: 15;
+}
+
+.loginRegisterLink a {
+    color: black; 
+    text-decoration: none;
 }
 
 .loginInput {

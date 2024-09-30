@@ -17,6 +17,7 @@
     height: 100%; 
     object-fit: cover;
     border-radius: 10px;
+    background-size: cover;
 }
 
 .playlistTitle {
@@ -39,7 +40,7 @@
     grid-row-start: 6; 
     grid-row-end: 12; 
     font-size: 0.7em;
-
+    
     display: flex; 
     justify-content: flex-start;
     align-items: flex-start;
@@ -53,6 +54,17 @@
     grid-row-end: 6; 
     font-size: 0.8em;
     color: grey; 
+}
+
+.addSongButton {
+    grid-column-start: 24;
+    grid-column-end: 27; 
+    grid-row-start: 11; 
+    grid-row-end: 12; 
+    border: none; 
+    background-color: grey;
+    border-radius: 10px;
+    color: white; 
 }
 
 .playlistSongs {
@@ -107,6 +119,18 @@
     padding: 0px; 
     font-size: 0.55em;
 }   
+
+.playlistAddToPlaylist {
+    background-color: grey;
+    color: white; 
+    border: none;
+    grid-column-start: 90;   
+    grid-column-end: 98; 
+    grid-row-start: 10; 
+    grid-row-end: 18; 
+    border-radius: 10px; 
+}
+
 
 
 

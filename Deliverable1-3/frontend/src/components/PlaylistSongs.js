@@ -17,6 +17,7 @@ class PlaylistSongs extends React.Component {
                 <img className="playlistSongImage" src={this.state.pic} alt="song"></img>
                 <p className="playlistSongTitle"> {this.state.title}</p>
                 <p className="playlistSongArtist"> {this.state.artist}</p>
+                <button className='playlistAddToPlaylist'>Add</button>
             </div>
         );
     }

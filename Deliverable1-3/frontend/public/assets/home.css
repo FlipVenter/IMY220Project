@@ -12,44 +12,62 @@
     gap: 10px;
     margin: 0px; 
     padding: 0px; 
-    overflow: hidden; 
+    overflow: auto; 
     border-radius: 10px;
+
+    /* Hide scrollbar for WebKit browsers */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for Firefox */
+    scrollbar-width: none;
+
+    /* Hide scrollbar for Internet Explorer and Edge */
+    -ms-overflow-style: none;
 }
 
 .playlist {
-    display: grid; 
-    grid-template-columns: repeat(59, 1fr);
-    grid-template-rows: repeat(19, 1fr); 
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center; 
     background-color: white; 
     width: 100%; 
     height: 15vh;
     border-radius: 10px;
     margin: 0px;
-    padding: 0px;
+    padding: 5px;
+    gap: 10px; 
+}
+
+.playlistInfo {
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: flex-start;
+    gap: 5px; 
+    margin: 0px; 
+    padding: 0px; 
+    width: 150px;   
+    background-color: red;
 }
 
 .playlistTitle {
-    grid-column-start: 50;   
-    grid-column-end: 59; 
-    grid-row-start: 1; 
-    grid-row-end: 10; 
-    background-color: #ff4f0a;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     text-decoration: none;
+    font-size: 1.5em !;
 }
 
 .playlistAuthor {
     margin: 0px; 
     padding: 0px; 
+    font-size: 1px;
 }
 
 .playlistDescription {
     margin: 0px; 
     padding: 0px; 
+    font-size: 2px;
 }
 
 .playlistImage {
@@ -64,13 +82,22 @@
     background-color: #ff4f0a;
 }
 
+.buttonContainer {
+    width: 100%; 
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
 .playlistButton {
-    background-color: rgb(141, 137, 137); 
-    
+    background-color: rgb(141, 137, 137);  
     text-decoration: none;
     color: white; 
-    margin: 0px; 
+    position: relative;
+    margin-right: 0px; 
     padding: 2px; 
+    width: 40px; 
 
     /* Reset default button styling */
     border: none;
@@ -80,8 +107,8 @@
     font-size: 0.7em;
 }
 
-.playListButton:focus {
-    color: orange;
+.playlistButton:hover {
+    background-color: #EC630E;
 }
 
 * a {
@@ -123,6 +150,6 @@
 }
 
 .filterBox:hover {
-    background-color: #ff4f0a; /* Darker blue on hover */
+    background-color: #EC630E; /* Darker blue on hover */
 }
 

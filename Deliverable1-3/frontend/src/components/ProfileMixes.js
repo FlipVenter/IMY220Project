@@ -25,6 +25,7 @@ class ProfileMixes extends React.Component {
                         <option value = "others">Other's</option>
                     </select>
                 </div>
+                <button className="profileCreatePlaylist">create</button>
                 <div className = "mixesMixesBox">
                     {playlists.map((mix, index) => (
                         <MixesMixes key={index} {...mix} />
