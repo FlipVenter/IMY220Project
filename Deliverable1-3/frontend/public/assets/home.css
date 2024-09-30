@@ -43,19 +43,11 @@
 }
 
 .playlistAuthor {
-    grid-column-start: 5;   
-    grid-column-end: 18; 
-    grid-row-start: 2;
-    grid-row-end: 3; 
     margin: 0px; 
     padding: 0px; 
 }
 
 .playlistDescription {
-    grid-column-start: 5;   
-    grid-column-end: 18; 
-    grid-row-start: 3; 
-    grid-row-end: 4; 
     margin: 0px; 
     padding: 0px; 
 }
@@ -73,10 +65,6 @@
 }
 
 .playlistButton {
-    grid-column-start: 55; 
-    grid-column-end: 59; 
-    grid-row-start: 13; 
-    grid-row-end: 19; 
     background-color: rgb(141, 137, 137); 
     
     text-decoration: none;
