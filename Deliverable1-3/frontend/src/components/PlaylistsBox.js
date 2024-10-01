@@ -12,6 +12,17 @@ const playlists = [
 ];
 
 class PlaylistsBox extends React.Component {
+    constructor(props) {
+        super(props); 
+        this.state = {
+            playlists: [],
+            error: false
+        };
+    }
+
+    componentDidMount() {
+        this.setState({ playlists });
+    }
     render() {
         return (
             <div className = "homePlaylistContainer">

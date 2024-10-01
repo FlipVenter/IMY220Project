@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-
 const app = express();
 const PORT = process.env.PORT || 1337;
 
@@ -16,9 +15,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   console.log(`Serving static files from: ${frontendPath}`);
 });
 
+
+
 module.exports = app;
+
+
+

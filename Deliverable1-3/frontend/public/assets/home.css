@@ -46,28 +46,30 @@
     flex-direction: column;
     justify-content: flex-start; 
     align-items: flex-start;
-    gap: 5px; 
     margin: 0px; 
     padding: 0px; 
-    width: 150px;   
-    background-color: red;
+    width: 500px;   
+    height: 100%;
 }
 
 .playlistTitle {
     text-decoration: none;
-    font-size: 1.5em !;
+    font-size: auto; 
+    height: 40%; 
+    margin: 0px;
+    padding: 0px;
 }
 
 .playlistAuthor {
     margin: 0px; 
     padding: 0px; 
-    font-size: 1px;
+    font-size: 0.5em;
 }
 
 .playlistDescription {
     margin: 0px; 
     padding: 0px; 
-    font-size: 2px;
+    font-size: 0.4em;
 }
 
 .playlistImage {

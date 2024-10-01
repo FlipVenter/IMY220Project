@@ -27,7 +27,7 @@ class Playlists extends Component {
         return (
             <div className = "playlist">
                 <img className = "playlistImage" src = {this.state.image} alt = "playlist"></img>
-                <div>
+                <div className = "playlistInfo">
                     <div className = "playlistTitle">{this.state.title}</div>
                     <div className = "playlistAuthor">{this.state.author}</div>
                     <div className = "playlistDescription">{this.state.description}</div>
