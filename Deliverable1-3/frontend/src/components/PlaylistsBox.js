@@ -3,14 +3,6 @@ import '../../public/assets/general.css'; // Ensure you import your CSS file
 import '../../public/assets/home.css'; // Ensure you import your CSS file
 import { Playlists } from './Playlists';
 
-const playlists = [
-    { title: "chillvibes", author: "emma stone", description: "songs to relax and unwind", image: "/assets/images/image.png"},
-    { title: "workoutmix", author: "james miller", description: "upbeat tunes to keep you motivated", image: "/assets/images/image.png"},
-    { title: "studybeats", author: "sarah brown", description: "instrumental music for focus and concentration", image: "/assets/images/image.png"},
-    { title: "roadtripplaylist", author: "michael green", description: "songs for a fun and memorable road trip", image: "/assets/images/image.png"},
-    { title: "throwbackjams", author: "linda johnson", description: "classic hits to bring back memories", image: "/assets/images/image.png"},
-];
-
 class PlaylistsBox extends React.Component {
     constructor(props) {
         super(props); 
@@ -21,11 +13,30 @@ class PlaylistsBox extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ playlists });
+        fetch('/api/playlists')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                this.setState({ playlists: data });
+                console.log('Fetched playlists:', data);
+            })
+            .catch(error => {
+                this.setState({ error: true });
+                console.error('Error fetching playlists:', error);
+            });
     }
+
     render() {
+        const { playlists, error } = this.state;
+        if (error) {
+            return <div>Error loading playlists</div>;
+        }
         return (
-            <div className = "homePlaylistContainer">
+            <div className="homePlaylistContainer">
                 {playlists.map((playlist, index) => (
                     <Playlists key={index} {...playlist} />
                 ))}
