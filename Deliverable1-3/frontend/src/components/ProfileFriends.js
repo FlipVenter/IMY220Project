@@ -2,22 +2,36 @@ import React from "react";
 import '../../public/assets/general.css'; // Ensure you import your CSS file
 import '../../public/assets/profile.css'; // Ensure you import your CSS file
 import { FriendsList } from './FriendsList'; // Ensure the path and import are correct
-
-const friends = [
-    { name: "John Doe", profilePic: "https://github.com/FlipVenter/IMY220Project/blob/main/Deliverable1-3/frontend/public/assets/images/image.png" },
-    { name: "Jane Smith", profilePic: "https://github.com/FlipVenter/IMY220Project/blob/main/Deliverable1-3/frontend/public/assets/images/image.png" },
-    { name: "Alice Johnson", profilePic: "https://github.com/FlipVenter/IMY220Project/blob/main/Deliverable1-3/frontend/public/assets/images/image.png" },
-    { name: "Bob Brown", profilePic: "https://github.com/FlipVenter/IMY220Project/blob/main/Deliverable1-3/frontend/public/assets/images/image.png" },
-];
+import Cookies from 'js-cookie';
 
 class ProfileFriends extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            friends: [],
+        };
+    }
+
+    async componentDidMount() {
+        try {
+            const response = await fetch(`/api/users/${Cookies.get('username')}/friends`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const friends = await response.json();
+            this.setState({ friends });
+        } catch (error) {
+            console.error('There was a problem with your fetch operation:', error);
+        }
+    }
+
     render() {
         return (
             <div className="profileFriendsBox">
                 <div className="profileFriendsTitle">Friends</div>
                 <div className="friendsListBox">
-                    {friends.map((friend, index) => (
-                        <FriendsList key={index} {...friend} />
+                    {this.state.friends.map((friend, index) => (
+                        <FriendsList key={index} name={friend} />
                     ))}
                 </div>
             </div>

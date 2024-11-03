@@ -18,4 +18,4 @@ class ProfilePage extends React.Component {
     }
 }
 
-export { ProfilePage };
+export default ProfilePage; 

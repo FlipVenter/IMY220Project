@@ -4,6 +4,15 @@ import '../../public/assets/splash.css';
 import { Link } from 'react-router-dom';
 
 export class SplashPage extends React.Component {
+    constructor(props) {
+        super(props);
+    };
+
+    componentDidMount() {
+        let thisPage = document.getElementById("root");
+        thisPage.style.backgroundImage = "url('frontend/public/assets/images/splashPage.png')";
+    }
+
     render() {
         return (
             <div className = "generalGrid">

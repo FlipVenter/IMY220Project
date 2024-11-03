@@ -14,6 +14,7 @@
     padding: 0px; 
     overflow: auto; 
     border-radius: 10px;
+    font-family: "Reenie Beanie", cursive;
 
     /* Hide scrollbar for WebKit browsers */
     ::-webkit-scrollbar {
@@ -39,6 +40,7 @@
     margin: 0px;
     padding: 5px;
     gap: 10px; 
+    font-family: "Reenie Beanie", cursive;
 }
 
 .playlistInfo {
@@ -52,12 +54,12 @@
     height: 100%;
 }
 
-.playlistTitle {
+.playlistName {
     text-decoration: none;
-    font-size: auto; 
+    font-size: 1.2em; 
     height: 40%; 
     margin: 0px;
-    padding: 0px;
+    font-weight: bold;
 }
 
 .playlistAuthor {
@@ -97,6 +99,10 @@
     margin-right: 0px; 
     padding: 2px; 
     width: 40px; 
+    font-family: "Reenie Beanie", cursive;
+    font-weight: bold;
+    font-size: 0.9em !important;
+    letter-spacing: 1px;
 
     /* Reset default button styling */
     border: none;
@@ -126,12 +132,33 @@
     grid-row-end: 2;
 
     padding: 5px; 
+    font-family: "Reenie Beanie", cursive;
 }
 
 .searchBar {
     border: none; 
     border-radius: 10px;
     padding: 5px; 
+    font-family: "Reenie Beanie", cursive;
+}
+
+.collectionSelector select {
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: white; /* Blue background */
+    color: black;
+    cursor: pointer;
+    font-family: "Reenie Beanie", cursive;
+    font-weight: bolder;
+    appearance: none; /* Remove default arrow */
+    -webkit-appearance: none; /* Remove default arrow for Safari */
+    -moz-appearance: none; /* Remove default arrow for Firefox */
+    position: relative;
+}
+
+.collectionSelector select:hover {
+    background-color: #EC630E; /* Darker blue on hover */
 }
 
 .collectionSelector select:focus {
@@ -139,16 +166,26 @@
     box-shadow: 0 0 0 2px rgba(0,123,255,.25); /* Light blue focus ring */
 }
 
-.filterBox {
+.filterBox select {
     border: none;
     border-radius: 10px;
     padding: 5px;
     background-color: white; /* Blue background */
     color: black;
     cursor: pointer;
+    font-family: "Reenie Beanie", cursive;
+    font-weight: bolder;    
+    appearance: none; /* Remove default arrow */
+    -webkit-appearance: none; /* Remove default arrow for Safari */
+    -moz-appearance: none; /* Remove default arrow for Firefox */
+    position: relative;
 }
 
-.filterBox:hover {
+.filterBox select:hover {
     background-color: #EC630E; /* Darker blue on hover */
 }
 
+.filterBox select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,123,255,.25); /* Light blue focus ring */
+}

@@ -16,89 +16,645 @@ var client = new MongoClient(uri);
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
-// Connect to MongoDB once and reuse the connection
-var db;
-client.connect().then(function () {
-  db = client.db('IMYProject');
-  console.log('Connected to MongoDB');
-})["catch"](function (err) {
-  console.error('Failed to connect to MongoDB', err);
-});
-app.get('/api/playlists', function (req, res) {
-  res.json(playlists);
-});
+//api/register endpoint
 app.post('/api/register', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res) {
-    var users, _req$body, username, password, email, img, pronouns, bio, links, _existingUser;
+    var _req$body, username, password, email, img, pronouns, bio, links, db, users, newUser, result;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          if (db) {
-            _context.next = 3;
-            break;
-          }
-          return _context.abrupt("return", res.status(500).json({
-            message: 'Database not connected'
-          }));
-        case 3:
-          users = db.collection('users');
           _req$body = req.body, username = _req$body.username, password = _req$body.password, email = _req$body.email, img = _req$body.img, pronouns = _req$body.pronouns, bio = _req$body.bio, links = _req$body.links;
-          if (!(!username || !password || !email || !pronouns || !bio || !links)) {
-            _context.next = 7;
-            break;
-          }
-          return _context.abrupt("return", res.status(400).json({
-            message: 'All fields are required'
-          }));
-        case 7:
-          _context.next = 9;
-          return users.findOne({
-            username: username
-          });
-        case 9:
-          _existingUser = _context.sent;
-          if (!_existingUser) {
-            _context.next = 12;
-            break;
-          }
-          return _context.abrupt("return", res.status(400).json({
-            message: 'Username already exists'
-          }));
-        case 12:
-          _context.next = 14;
-          return users.insertOne({
+          db = client.db('IMYProject');
+          users = db.collection('users'); // Ensure the friends field is initialized as an empty array
+          newUser = {
             username: username,
             password: password,
             email: email,
             img: img,
             pronouns: pronouns,
             bio: bio,
-            links: links
-          });
-        case 14:
+            links: links,
+            friends: [] // Initialize friends as an empty array
+          };
+          _context.next = 7;
+          return users.insertOne(newUser);
+        case 7:
+          result = _context.sent;
           res.status(201).json({
-            message: 'User registered successfully'
+            message: 'User registered successfully',
+            userId: result.insertedId
           });
-          _context.next = 21;
+          _context.next = 15;
           break;
-        case 17:
-          _context.prev = 17;
+        case 11:
+          _context.prev = 11;
           _context.t0 = _context["catch"](0);
-          console.error('Error during registration:', _context.t0);
+          console.error('Error registering user:', _context.t0);
           res.status(500).json({
             message: 'Internal server error'
           });
-        case 21:
+        case 15:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 17]]);
+    }, _callee, null, [[0, 11]]);
   }));
   return function (_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }());
+
+//api/login endpoint
+app.post('/api/login', /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
+    var db, users, _req$body2, username, password, user;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.prev = 0;
+          _context2.next = 3;
+          return client.connect();
+        case 3:
+          db = client.db('IMYProject');
+          users = db.collection('users');
+          _req$body2 = req.body, username = _req$body2.username, password = _req$body2.password;
+          if (!(!username || !password)) {
+            _context2.next = 8;
+            break;
+          }
+          return _context2.abrupt("return", res.status(400).json({
+            message: 'All fields are required'
+          }));
+        case 8:
+          _context2.next = 10;
+          return users.findOne({
+            username: username,
+            password: password
+          });
+        case 10:
+          user = _context2.sent;
+          if (user) {
+            _context2.next = 13;
+            break;
+          }
+          return _context2.abrupt("return", res.status(401).json({
+            message: 'Invalid credentials'
+          }));
+        case 13:
+          res.status(200).json({
+            message: 'Login successful'
+          });
+          _context2.next = 20;
+          break;
+        case 16:
+          _context2.prev = 16;
+          _context2.t0 = _context2["catch"](0);
+          //user not found
+          console.error('Error during login:', _context2.t0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 20:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2, null, [[0, 16]]);
+  }));
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+
+// Endpoint to get playlists with specific author
+app.get('/api/playlists/:author', /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
+    var author, db, playlists, result;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.prev = 0;
+          author = req.params.author;
+          db = client.db('IMYProject');
+          playlists = db.collection('playlists');
+          _context3.next = 6;
+          return playlists.find({
+            author: author
+          }).toArray();
+        case 6:
+          result = _context3.sent;
+          res.status(200).json(result);
+          _context3.next = 14;
+          break;
+        case 10:
+          _context3.prev = 10;
+          _context3.t0 = _context3["catch"](0);
+          console.error('Error fetching playlists:', _context3.t0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 14:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3, null, [[0, 10]]);
+  }));
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+
+//api/playlists endpoint
+app.get('/api/playlists', /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
+    var db, playlists, result;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.prev = 0;
+          _context4.next = 3;
+          return client.connect();
+        case 3:
+          db = client.db('IMYProject');
+          playlists = db.collection('playlists');
+          _context4.next = 7;
+          return playlists.find({}).toArray();
+        case 7:
+          result = _context4.sent;
+          res.status(200).json(result);
+          _context4.next = 15;
+          break;
+        case 11:
+          _context4.prev = 11;
+          _context4.t0 = _context4["catch"](0);
+          console.error('Error fetching playlists:', _context4.t0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 15:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4, null, [[0, 11]]);
+  }));
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}());
+
+//apoi/users/:username endpoint
+app.get('/api/users/:username', /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
+    var db, users, username, user;
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
+        case 0:
+          _context5.prev = 0;
+          _context5.next = 3;
+          return client.connect();
+        case 3:
+          db = client.db('IMYProject');
+          users = db.collection('users');
+          username = req.params.username;
+          _context5.next = 8;
+          return users.findOne({
+            username: username
+          });
+        case 8:
+          user = _context5.sent;
+          if (user) {
+            _context5.next = 11;
+            break;
+          }
+          return _context5.abrupt("return", res.status(404).json({
+            message: 'User not found'
+          }));
+        case 11:
+          res.status(200).json(user);
+          _context5.next = 18;
+          break;
+        case 14:
+          _context5.prev = 14;
+          _context5.t0 = _context5["catch"](0);
+          console.error('Error fetching user:', _context5.t0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 18:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5, null, [[0, 14]]);
+  }));
+  return function (_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}());
+
+// Endpoint to add a friend to the user's friends list
+app.post('/api/users/:username/friends', /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
+    var username, friend, db, users, result;
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.prev = 0;
+          username = req.params.username;
+          friend = req.body.friend;
+          db = client.db('IMYProject');
+          users = db.collection('users');
+          _context6.next = 7;
+          return users.updateOne({
+            username: username
+          }, {
+            $addToSet: {
+              friends: friend
+            }
+          });
+        case 7:
+          result = _context6.sent;
+          if (!(result.matchedCount === 0)) {
+            _context6.next = 10;
+            break;
+          }
+          return _context6.abrupt("return", res.status(404).json({
+            message: 'User not found'
+          }));
+        case 10:
+          res.status(200).json({
+            message: 'Friend added successfully'
+          });
+          _context6.next = 17;
+          break;
+        case 13:
+          _context6.prev = 13;
+          _context6.t0 = _context6["catch"](0);
+          console.error('Error adding friend:', _context6.t0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 17:
+        case "end":
+          return _context6.stop();
+      }
+    }, _callee6, null, [[0, 13]]);
+  }));
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}());
+
+//endpoint to get the friends of a specific user 
+app.get('/api/users/:username/friends', /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
+    var db, users, username, user;
+    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
+        case 0:
+          _context7.prev = 0;
+          _context7.next = 3;
+          return client.connect();
+        case 3:
+          db = client.db('IMYProject');
+          users = db.collection('users');
+          username = req.params.username;
+          _context7.next = 8;
+          return users.findOne({
+            username: username
+          });
+        case 8:
+          user = _context7.sent;
+          if (user) {
+            _context7.next = 11;
+            break;
+          }
+          return _context7.abrupt("return", res.status(404).json({
+            message: 'User not found'
+          }));
+        case 11:
+          res.status(200).json(user.friends);
+          _context7.next = 18;
+          break;
+        case 14:
+          _context7.prev = 14;
+          _context7.t0 = _context7["catch"](0);
+          console.error('Error fetching user:', _context7.t0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 18:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7, null, [[0, 14]]);
+  }));
+  return function (_x13, _x14) {
+    return _ref7.apply(this, arguments);
+  };
+}());
+
+//update user profile
+app.put('/api/users/:username', /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee8(req, res) {
+    var db, users, username, _req$body3, pronouns, bio, links, img, result;
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
+          _context8.prev = 0;
+          _context8.next = 3;
+          return client.connect();
+        case 3:
+          db = client.db('IMYProject');
+          users = db.collection('users');
+          username = req.params.username;
+          _req$body3 = req.body, pronouns = _req$body3.pronouns, bio = _req$body3.bio, links = _req$body3.links, img = _req$body3.img;
+          _context8.next = 9;
+          return users.updateOne({
+            username: username
+          }, {
+            $set: {
+              pronouns: pronouns,
+              bio: bio,
+              links: links,
+              img: img
+            }
+          });
+        case 9:
+          result = _context8.sent;
+          if (!(result.matchedCount === 0)) {
+            _context8.next = 12;
+            break;
+          }
+          return _context8.abrupt("return", res.status(404).json({
+            message: 'User not found'
+          }));
+        case 12:
+          res.status(200).json({
+            message: 'Profile updated successfully'
+          });
+          _context8.next = 18;
+          break;
+        case 15:
+          _context8.prev = 15;
+          _context8.t0 = _context8["catch"](0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 18:
+          _context8.prev = 18;
+          _context8.next = 21;
+          return client.close();
+        case 21:
+          return _context8.finish(18);
+        case 22:
+        case "end":
+          return _context8.stop();
+      }
+    }, _callee8, null, [[0, 15, 18, 22]]);
+  }));
+  return function (_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}());
+
+// Endpoint to get a playlist by name
+app.get('/api/playlists/name/:name', /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee9(req, res) {
+    var name, db, playlists, playlist;
+    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+      while (1) switch (_context9.prev = _context9.next) {
+        case 0:
+          _context9.prev = 0;
+          name = req.params.name;
+          db = client.db('IMYProject');
+          playlists = db.collection('playlists');
+          _context9.next = 6;
+          return playlists.findOne({
+            name: name
+          });
+        case 6:
+          playlist = _context9.sent;
+          if (playlist) {
+            _context9.next = 9;
+            break;
+          }
+          return _context9.abrupt("return", res.status(404).json({
+            message: 'Playlist not found'
+          }));
+        case 9:
+          res.status(200).json(playlist);
+          _context9.next = 16;
+          break;
+        case 12:
+          _context9.prev = 12;
+          _context9.t0 = _context9["catch"](0);
+          console.error('Error fetching playlist:', _context9.t0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 16:
+        case "end":
+          return _context9.stop();
+      }
+    }, _callee9, null, [[0, 12]]);
+  }));
+  return function (_x17, _x18) {
+    return _ref9.apply(this, arguments);
+  };
+}());
+
+// New POST endpoint to create a new playlist
+app.post('/api/playlists', /*#__PURE__*/function () {
+  var _ref10 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee10(req, res) {
+    var _req$body4, name, description, img, genre, author, songs, comments, db, playlists, existingPlaylist, newPlaylist, result;
+    return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+      while (1) switch (_context10.prev = _context10.next) {
+        case 0:
+          _context10.prev = 0;
+          _req$body4 = req.body, name = _req$body4.name, description = _req$body4.description, img = _req$body4.img, genre = _req$body4.genre, author = _req$body4.author;
+          songs = []; // Initialize an empty array for songs
+          comments = []; // Initialize an empty array for comments
+          if (!(!name || !description || !author || !genre)) {
+            _context10.next = 6;
+            break;
+          }
+          return _context10.abrupt("return", res.status(400).json({
+            message: 'Name, description, genre, and author are required'
+          }));
+        case 6:
+          db = client.db('IMYProject');
+          playlists = db.collection('playlists'); //check for duplicates
+          _context10.next = 10;
+          return playlists.findOne({
+            name: name,
+            author: author
+          });
+        case 10:
+          existingPlaylist = _context10.sent;
+          if (!existingPlaylist) {
+            _context10.next = 13;
+            break;
+          }
+          return _context10.abrupt("return", res.status(400).json({
+            message: 'A playlist with this name already exists'
+          }));
+        case 13:
+          newPlaylist = {
+            name: name,
+            description: description,
+            img: img,
+            genre: genre,
+            author: author,
+            songs: songs,
+            comments: comments,
+            createdAt: new Date()
+          };
+          _context10.next = 16;
+          return db.collection('playlists').insertOne(newPlaylist);
+        case 16:
+          result = _context10.sent;
+          res.status(201).json({
+            message: 'Playlist created successfully',
+            playlistId: result.insertedId
+          });
+          _context10.next = 24;
+          break;
+        case 20:
+          _context10.prev = 20;
+          _context10.t0 = _context10["catch"](0);
+          console.error('Error creating playlist:', _context10.t0);
+          res.status(500).json({
+            message: 'Internal server error',
+            error: _context10.t0.message
+          });
+        case 24:
+        case "end":
+          return _context10.stop();
+      }
+    }, _callee10, null, [[0, 20]]);
+  }));
+  return function (_x19, _x20) {
+    return _ref10.apply(this, arguments);
+  };
+}());
+
+// Endpoint to get a song by _id
+app.get('/api/songs/:id', /*#__PURE__*/function () {
+  var _ref11 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee11(req, res) {
+    var id, db, songs, song;
+    return _regeneratorRuntime().wrap(function _callee11$(_context11) {
+      while (1) switch (_context11.prev = _context11.next) {
+        case 0:
+          _context11.prev = 0;
+          id = req.params.id;
+          db = client.db('IMYProject');
+          songs = db.collection('songs');
+          _context11.next = 6;
+          return songs.findOne({
+            _id: new ObjectId(id)
+          });
+        case 6:
+          song = _context11.sent;
+          if (song) {
+            _context11.next = 9;
+            break;
+          }
+          return _context11.abrupt("return", res.status(404).json({
+            message: 'Song not found'
+          }));
+        case 9:
+          res.status(200).json(song);
+          _context11.next = 16;
+          break;
+        case 12:
+          _context11.prev = 12;
+          _context11.t0 = _context11["catch"](0);
+          console.error('Error fetching song:', _context11.t0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 16:
+        case "end":
+          return _context11.stop();
+      }
+    }, _callee11, null, [[0, 12]]);
+  }));
+  return function (_x21, _x22) {
+    return _ref11.apply(this, arguments);
+  };
+}());
+
+// Endpoint to add a comment to a playlist
+app.post('/api/playlists/:name/comments', /*#__PURE__*/function () {
+  var _ref12 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee12(req, res) {
+    var name, comment, db, playlists, result;
+    return _regeneratorRuntime().wrap(function _callee12$(_context12) {
+      while (1) switch (_context12.prev = _context12.next) {
+        case 0:
+          _context12.prev = 0;
+          name = req.params.name;
+          comment = req.body.comment;
+          db = client.db('IMYProject');
+          playlists = db.collection('playlists'); // Update the playlist's document by adding the comment to the comments array
+          _context12.next = 7;
+          return playlists.updateOne({
+            name: name
+          }, {
+            $push: {
+              comments: comment
+            }
+          });
+        case 7:
+          result = _context12.sent;
+          if (!(result.matchedCount === 0)) {
+            _context12.next = 10;
+            break;
+          }
+          return _context12.abrupt("return", res.status(404).json({
+            message: 'Playlist not found'
+          }));
+        case 10:
+          res.status(200).json({
+            message: 'Comment added successfully'
+          });
+          _context12.next = 17;
+          break;
+        case 13:
+          _context12.prev = 13;
+          _context12.t0 = _context12["catch"](0);
+          console.error('Error adding comment:', _context12.t0);
+          res.status(500).json({
+            message: 'Internal server error'
+          });
+        case 17:
+        case "end":
+          return _context12.stop();
+      }
+    }, _callee12, null, [[0, 13]]);
+  }));
+  return function (_x23, _x24) {
+    return _ref12.apply(this, arguments);
+  };
+}());
+
+//get playlist comments
+// app.get('/api/playlists/:name/comments', async (req, res) => {
+//   try {
+//     const { name } = req.params;
+//     const db = client.db('IMYProject');
+//     const playlists = db.collection('playlists');
+
+//     const playlist = await playlists.findOne({ name });
+//     if (!playlist) {
+//       return res.status(404).json({ message: 'Playlist not found' });
+//     }
+
+//     res.status(200).json(playlist.comments || []);
+//   } catch (error) {
+//     console.error('Error fetching comments:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
 
 // Adjust the path to point to the correct frontend directory
 var frontendPath = path.join(__dirname, '..', '..', 'frontend', 'public');
@@ -112,292 +668,5 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 app.listen(PORT, function () {
-  console.log("Server is running on http://localhost:".concat(PORT));
+  console.log("Server is running on port ".concat(PORT));
 });
-function runFindQuery(_x3, _x4, _x5) {
-  return _runFindQuery.apply(this, arguments);
-} //used to insert songs 
-function _runFindQuery() {
-  _runFindQuery = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(collection, query, options) {
-    var database, col, cursor;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
-        case 0:
-          database = client.db('IMYProject');
-          col = database.collection(collection);
-          cursor = col.find(query, options);
-          _context3.next = 5;
-          return cursor.toArray();
-        case 5:
-          return _context3.abrupt("return", _context3.sent);
-        case 6:
-        case "end":
-          return _context3.stop();
-      }
-    }, _callee3);
-  }));
-  return _runFindQuery.apply(this, arguments);
-}
-function runInsertPlaylist(_x6, _x7, _x8) {
-  return _runInsertPlaylist.apply(this, arguments);
-} //used to insert songs
-function _runInsertPlaylist() {
-  _runInsertPlaylist = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4(name, description, img) {
-    var database, col, existingPlaylist;
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-      while (1) switch (_context4.prev = _context4.next) {
-        case 0:
-          _context4.prev = 0;
-          database = client.db('IMYProject');
-          col = database.collection('playlists');
-          _context4.next = 5;
-          return col.findOne({
-            name: name
-          });
-        case 5:
-          existingPlaylist = _context4.sent;
-          if (existingPlaylist) {
-            _context4.next = 12;
-            break;
-          }
-          _context4.next = 9;
-          return col.insertOne({
-            name: name,
-            description: description,
-            img: img,
-            songs: []
-          });
-        case 9:
-          console.log("Playlist inserted successfully");
-          _context4.next = 13;
-          break;
-        case 12:
-          console.log("Playlist already exists:", existingPlaylist);
-        case 13:
-          _context4.next = 18;
-          break;
-        case 15:
-          _context4.prev = 15;
-          _context4.t0 = _context4["catch"](0);
-          console.error("Error during insert operation:", _context4.t0);
-        case 18:
-        case "end":
-          return _context4.stop();
-      }
-    }, _callee4, null, [[0, 15]]);
-  }));
-  return _runInsertPlaylist.apply(this, arguments);
-}
-function runInsertSong(_x9, _x10, _x11) {
-  return _runInsertSong.apply(this, arguments);
-} //used to insert users
-function _runInsertSong() {
-  _runInsertSong = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee5(name, artist, img) {
-    var database, col, existingSong;
-    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-      while (1) switch (_context5.prev = _context5.next) {
-        case 0:
-          database = client.db('IMYProject');
-          col = database.collection('songs');
-          _context5.next = 4;
-          return col.findOne({
-            name: name,
-            artist: artist
-          });
-        case 4:
-          existingSong = _context5.sent;
-          if (existingSong) {
-            _context5.next = 9;
-            break;
-          }
-          _context5.next = 8;
-          return col.insertOne({
-            "name": name,
-            "artist": artist,
-            "img": img
-          });
-        case 8:
-          console.log("Song inserted successfully");
-        case 9:
-        case "end":
-          return _context5.stop();
-      }
-    }, _callee5);
-  }));
-  return _runInsertSong.apply(this, arguments);
-}
-function runInsertUser(_x12, _x13, _x14, _x15, _x16, _x17, _x18) {
-  return _runInsertUser.apply(this, arguments);
-} // Insert a song into a playlist
-function _runInsertUser() {
-  _runInsertUser = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee6(username, password, email, img, pronouns, bio, links) {
-    var database, col;
-    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-      while (1) switch (_context6.prev = _context6.next) {
-        case 0:
-          database = client.db('IMYProject');
-          col = database.collection('users');
-          _context6.next = 4;
-          return col.findOne({
-            username: username
-          });
-        case 4:
-          existingUser = _context6.sent;
-          if (existingUser) {
-            _context6.next = 9;
-            break;
-          }
-          _context6.next = 8;
-          return col.insertOne({
-            "username": username,
-            "password": password,
-            "email": email,
-            "img": img,
-            "pronouns": pronouns,
-            "bio": bio,
-            "links": links
-          });
-        case 8:
-          console.log("User inserted successfully");
-        case 9:
-        case "end":
-          return _context6.stop();
-      }
-    }, _callee6);
-  }));
-  return _runInsertUser.apply(this, arguments);
-}
-function runInsertSongToPlaylist(_x19, _x20) {
-  return _runInsertSongToPlaylist.apply(this, arguments);
-} //edit user 
-function _runInsertSongToPlaylist() {
-  _runInsertSongToPlaylist = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee7(playlistName, songName) {
-    var database, col, song, playlist, songId, songExists;
-    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-      while (1) switch (_context7.prev = _context7.next) {
-        case 0:
-          database = client.db('IMYProject');
-          col = database.collection('playlists');
-          _context7.next = 4;
-          return runFindQuery("songs", {
-            "name": songName
-          }, {});
-        case 4:
-          song = _context7.sent;
-          _context7.next = 7;
-          return runFindQuery("playlists", {
-            "name": playlistName
-          }, {});
-        case 7:
-          playlist = _context7.sent;
-          if (!(!song || song.length === 0 || !playlist || playlist.length === 0)) {
-            _context7.next = 11;
-            break;
-          }
-          console.log("Song or playlist not found");
-          return _context7.abrupt("return");
-        case 11:
-          songId = song[0]._id.toString();
-          songExists = playlist[0].songs.some(function (id) {
-            return id.toString() === songId;
-          });
-          if (songExists) {
-            _context7.next = 19;
-            break;
-          }
-          _context7.next = 16;
-          return col.updateOne({
-            "name": playlistName
-          }, {
-            $push: {
-              "songs": song[0]._id
-            }
-          });
-        case 16:
-          console.log("Song inserted into playlist successfully");
-          _context7.next = 20;
-          break;
-        case 19:
-          console.log("Song already exists in playlist");
-        case 20:
-        case "end":
-          return _context7.stop();
-      }
-    }, _callee7);
-  }));
-  return _runInsertSongToPlaylist.apply(this, arguments);
-}
-function runEditUser(_x21, _x22, _x23, _x24, _x25, _x26) {
-  return _runEditUser.apply(this, arguments);
-}
-function _runEditUser() {
-  _runEditUser = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee8(username, email, img, pronouns, bio, links) {
-    var database, col, existingUser;
-    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-      while (1) switch (_context8.prev = _context8.next) {
-        case 0:
-          database = client.db('IMYProject');
-          col = database.collection('users');
-          _context8.next = 4;
-          return col.findOne({
-            username: username
-          });
-        case 4:
-          existingUser = _context8.sent;
-          if (!existingUser) {
-            _context8.next = 9;
-            break;
-          }
-          _context8.next = 8;
-          return col.updateOne({
-            "username": username
-          }, {
-            $set: {
-              "email": email,
-              "img": img,
-              "pronouns": pronouns,
-              "bio": bio,
-              "links": links
-            }
-          });
-        case 8:
-          console.log("User updated successfully");
-        case 9:
-        case "end":
-          return _context8.stop();
-      }
-    }, _callee8);
-  }));
-  return _runEditUser.apply(this, arguments);
-}
-var playlists = [];
-_asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-  return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-    while (1) switch (_context2.prev = _context2.next) {
-      case 0:
-        _context2.prev = 0;
-        _context2.next = 3;
-        return client.connect();
-      case 3:
-        _context2.next = 5;
-        return runFindQuery('playlists', {}, {});
-      case 5:
-        playlists = _context2.sent;
-        _context2.next = 11;
-        break;
-      case 8:
-        _context2.prev = 8;
-        _context2.t0 = _context2["catch"](0);
-        console.error("Error during operations:", _context2.t0);
-      case 11:
-        _context2.prev = 11;
-        _context2.next = 14;
-        return client.close();
-      case 14:
-        return _context2.finish(11);
-      case 15:
-      case "end":
-        return _context2.stop();
-    }
-  }, _callee2, null, [[0, 8, 11, 15]]);
-}))();

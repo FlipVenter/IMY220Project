@@ -2,38 +2,64 @@ import React from "react";
 import '../../public/assets/general.css'; // Ensure you import your CSS file
 import '../../public/assets/profile.css'; // Ensure you import your CSS file
 import '../../public/assets/home.css'; // Ensure you import your CSS file
-import { Playlists } from './Playlists';
+import { Playlist } from './HomePlaylist';
 import { MixesMixes } from "./MixesMixes";
-
-
-const playlists = [
-    { title: "chill vibes", author: "emma stone", description: "songs to relax and unwind", image: "https://github.com/FlipVenter/IMY220Project/blob/main/Deliverable1-3/frontend/public/assets/images/image.png"},
-    { title: "workout mix", author: "james miller", description: "upbeat tunes to keep you motivated", image: "https://github.com/FlipVenter/IMY220Project/blob/main/Deliverable1-3/frontend/public/assets/images/image.png"},
-    { title: "study beats", author: "sarah brown", description: "instrumental music for focus and concentration", image: "https://github.com/FlipVenter/IMY220Project/blob/main/Deliverable1-3/frontend/public/assets/images/image.png"},
-    { title: "road trip playlist", author: "michael green", description: "songs for a fun and memorable road trip", image: "https://github.com/FlipVenter/IMY220Project/blob/main/Deliverable1-3/frontend/public/assets/images/image.png"},
-    { title: "throwback jams", author: "linda johnson", description: "classic hits to bring back memories", image: "https://github.com/FlipVenter/IMY220Project/blob/main/Deliverable1-3/frontend/public/assets/images/image.png"},
-];
+import { CreatePlaylist } from "./createPlaylist";
+import Cookies from 'js-cookie';
 
 class ProfileMixes extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            playlists: [],
+            showCreatePlaylist: false // New state property to track visibility of CreatePlaylist component
+        };
+        this.createPlaylistFunction = this.createPlaylistFunction.bind(this);
+        this.hideCreatePlaylist = this.hideCreatePlaylist.bind(this);
+    }
+
+    componentDidMount() {
+        const author = Cookies.get("username");
+        // Fetch playlists with specific author
+        fetch(`/api/playlists/${author}`)
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState({ playlists: data });
+                console.log('Playlists:', data);
+            })
+            .catch((error) => {
+                console.error('Error fetching playlists:', error);
+            });
+    }
+
+    createPlaylistFunction() {
+        this.setState(prevState => ({ showCreatePlaylist: !prevState.showCreatePlaylist }));
+    }
+
+    hideCreatePlaylist() {
+        this.setState({ showCreatePlaylist: false });
+    }
+
     render() {
         return (
-            <div className = "profileMixesBox">
-                <div className = "profileMixTitle">Mixes</div>
-                <div className = "profileMixOwnership">
+            <div className="profileMixesBox">
+                <div className="profileMixTitle">Mixes</div>
+                {/* <div className="profileMixOwnership">
                     <select>
-                        <option value = "own">Own</option>
-                        <option value = "others">Other's</option>
+                        <option value="own">Own</option>
+                        <option value="others">Other's</option>
                     </select>
-                </div>
-                <button className="profileCreatePlaylist">create</button>
-                <div className = "mixesMixesBox">
-                    {playlists.map((mix, index) => (
+                </div> */}
+                <button className="profileCreatePlaylist" onClick={this.createPlaylistFunction}>create</button>
+                {this.state.showCreatePlaylist && <CreatePlaylist hideCreatePlaylist={this.hideCreatePlaylist} />}
+                <div className="mixesMixesBox">
+                    {this.state.playlists.map((mix, index) => (
                         <MixesMixes key={index} {...mix} />
                     ))}
                 </div>
             </div>
         );
-    };
+    }
 }
 
 export { ProfileMixes };

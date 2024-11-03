@@ -12,7 +12,8 @@ class RegisterPage extends React.Component {
             email: '',
             pronouns: '',
             bio: '',
-            links: ''
+            links: '',
+            
         };
     }
 
@@ -22,16 +23,17 @@ class RegisterPage extends React.Component {
     }
 
     validateForm = () => {
+        const emptyFields = []; // Initialize the array
+    
         const { username, password, email, pronouns, bio, links } = this.state;
-        const emptyFields = [];
-
+    
         if (!username) emptyFields.push('Username');
         if (!password) emptyFields.push('Password');
         if (!email) emptyFields.push('Email');
         if (!pronouns) emptyFields.push('Pronouns');
         if (!bio) emptyFields.push('Bio');
         if (!links) emptyFields.push('Links');
-
+    
         if (emptyFields.length > 0) {
             alert(`The following fields are empty: ${emptyFields.join(', ')}`);
             return false;
@@ -39,114 +41,127 @@ class RegisterPage extends React.Component {
         return true;
     }
 
-    handleSubmit = async (event) => {
+    handleSubmit = async (event) => { // Corrected typo from hhandleSubmit to handleSubmit
         event.preventDefault();
         if (!this.validateForm()) {
-            return;
+          return;
         }
-
+    
         const { username, password, email, pronouns, bio, links } = this.state;
-
+    
         const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password, email, pronouns, bio, links })
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, password, email, pronouns, bio, links })
         });
-
+    
         if (response.ok) {
-            // Handle successful registration (e.g., redirect to login page)
-            console.log('Registration successful');
+          // Handle successful registration (e.g., redirect to login page)
+          console.log('Registration successful');
+          // Redirect to login page
+            this.props.history.push('/Login');
         } else {
-            // Handle errors
-            console.error('Registration failed');
+          const errorData = await response.json();
+          this.setState({ errorMessage: errorData.message }); // Set error message in state
+          console.error('Registration failed:', errorData.message);
+          alert(`Registration failed: ${errorData.message}`); // Alert the user with the error message
         }
-    }
+    };
 
     render() {
         return (
             <div className="LoginContainer">
                 <form className="registerForm" onSubmit={this.handleSubmit}>
-                    <div className="loginTitle">Register</div>
+                    <div className="registerTitle">Register</div>
+                    <div className="registerFormAligner">
+                        <div className="registerFormDivider">
+                            <div className="registerInputContainer">
+                                <label>Username: </label>
+                                <input 
+                                    type="text" 
+                                    className="registerInput" 
+                                    placeholder="Username..." 
+                                    name="username"
+                                    value={this.state.username}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+
+                            <div className="registerInputContainer">
+                                <label>Password: </label>
+                                <input 
+                                    type="password" 
+                                    className="registerInput" 
+                                    placeholder="Password..." 
+                                    name="password"
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+
+                            <div className="registerInputContainer">
+                                <label>Email: </label>
+                                <input 
+                                    type="email" 
+                                    className="registerInput" 
+                                    placeholder="Email..." 
+                                    name="email"
+                                    value={this.state.email}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+
+                        </div>
+                        <div className="registerFormDivider">
+                            <div className="registerInputContainer">
+                                <label>Pronouns: </label>
+                                <input 
+                                    type="text" 
+                                    className="registerInput" 
+                                    placeholder="Pronouns..." 
+                                    name="pronouns"
+                                    value={this.state.pronouns}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+                            <div className="registerInputContainer">
+                                <label>Bio: </label>
+                                <input 
+                                    type="text" 
+                                    className="registerInput" 
+                                    placeholder="Bio..." 
+                                    name="bio"
+                                    value={this.state.bio}
+                                    onChange={this.handleChange}
+                                    />
+                            </div>
+
+                            <div className="registerInputContainer">
+                                <label>Links: </label>
+                                <input 
+                                    type="text" 
+                                    className="registerInput" 
+                                    placeholder="Links..." 
+                                    name="links"
+                                    value={this.state.links}
+                                    onChange={this.handleChange}
+                                    />
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" className="loginButton">Register</button>
                     
-                    <div className="registerInputContainer">
-                        <label>Username: </label>
-                        <input 
-                            type="text" 
-                            className="registerInput" 
-                            placeholder="Username..." 
-                            name="username"
-                            value={this.state.username}
-                            onChange={this.handleChange}
-                        />
+                    <div className = "loginRegisterLink">
+                            <Link to="/Login">
+                                Already Have an account? Login here
+                            </Link>
                     </div>
-
-                    <div className="registerInputContainer">
-                        <label>Password: </label>
-                        <input 
-                            type="password" 
-                            className="registerInput" 
-                            placeholder="Password..." 
-                            name="password"
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-
-                    <div className="registerInputContainer">
-                        <label>Email: </label>
-                        <input 
-                            type="email" 
-                            className="registerInput" 
-                            placeholder="Email..." 
-                            name="email"
-                            value={this.state.email}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-
-                    <div className="registerInputContainer">
-                        <label>Pronouns: </label>
-                        <input 
-                            type="text" 
-                            className="registerInput" 
-                            placeholder="Pronouns..." 
-                            name="pronouns"
-                            value={this.state.pronouns}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-
-                    <div className="registerInputContainer">
-                        <label>Bio: </label>
-                        <input 
-                            type="text" 
-                            className="registerInput" 
-                            placeholder="Bio..." 
-                            name="bio"
-                            value={this.state.bio}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-
-                    <div className="registerInputContainer">
-                        <label>Links: </label>
-                        <input 
-                            type="text" 
-                            className="registerInput" 
-                            placeholder="Links..." 
-                            name="links"
-                            value={this.state.links}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-
-                    <button type="submit" className="registerButton">Register</button>
                 </form>
             </div>
         );
     }
 }
 
-export { RegisterPage };
+export default RegisterPage; 

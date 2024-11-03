@@ -5,46 +5,83 @@
     width: 100vw;
     display: flex; 
     flex-direction: column;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center;
 }
 
 .loginForm {
     background-color: white;
-    display: grid;
-    grid-template-columns: repeat(15, 1fr);
-    grid-template-rows: repeat(15, 1fr);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; 
     width: 60%;
     height: 70%;
     border-radius: 20px;
 }
 
 .loginTitle {
-    grid-column-start: 7; 
-    grid-column-end: 9;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    /* background-color: yellow;  */
+    margin: 20px; 
+    width: 40px; 
+    font-size: 2.0em;
+    font-family: "Reenie Beanie", cursive;
 }
 
 .loginUsername {
-    grid-column-start: 4; 
-    grid-column-end: 12;
-    grid-row-start: 5;
-    grid-row-end: 7;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: green;  */
+    font-family: "Reenie Beanie", cursive;
+    font-size: 1.4em;
+}
+
+.loginUsername input {
+    width: 400px;
+    height: 40%; 
+    border-radius: 20px;
+    font-size: 70%;
+    padding: 5px; 
+    border: none; 
+    font-family: "Reenie Beanie", cursive;
+    background-color: rgb(209, 209, 209); 
+    box-shadow: 1px 1px 2px 0px rgb(143, 141, 141);
 }
 
 .loginPassword {
-    grid-column-start: 4;
-    grid-column-end: 12;
-    grid-row-start: 8;
-    grid-row-end: 10;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: blue;  */
+    font-family: "Reenie Beanie", cursive;
+    font-size: 1.4em;
+}
+
+.loginPassword input {
+    width: 400px;
+    height: 40%; 
+    border-radius: 20px;
+    font-size: 70%;
+    padding: 5px; 
+    border: none;
+    font-family: "Reenie Beanie", cursive; 
+    background-color: rgb(209, 209, 209);
+    box-shadow: 1px 1px 2px 0px rgb(143, 141, 141);
 }
 
 .loginButton {
-    grid-column-start: 7; 
-    grid-column-end: 9;
-    grid-row-start: 12;
-    grid-row-end: 13;
+    /* background-color: orange;  */
+    font-family: "Reenie Beanie", cursive;
+    width: 70px; 
+    height: 30px; 
+    font-size: 1.0em; 
+    border: none; 
+    border-radius: 15px;
+    box-shadow: 1px 1px 2px 0px rgb(143, 141, 141);
 }
 
 .loginRegisterLink {
@@ -52,11 +89,14 @@
     grid-column-end: 13;
     grid-row-start: 14;
     grid-row-end: 15;
+    /* background-color: grey;  */
 }
 
 .loginRegisterLink a {
-    color: black; 
+    color: #EC630E; 
     text-decoration: none;
+    font-family: "Reenie Beanie", cursive;
+    font-size: 1.2em; 
 }
 
 .loginInput {
@@ -67,38 +107,70 @@
     padding: 1px; 
 }
 
-.registerInputContainer{
-    display: flex; 
+.registerForm{
+    background-color: white;
+    display: flex;
     flex-direction: column;
-    justify-content: center; /* Center horizontally */
-    align-items: flex-start; /* Center vertically */
-    margin: 0px; 
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px; 
+    width: 60%;
+    height: 70%;
+    border-radius: 20px;
     padding: 0px; 
 }
 
+
+.registerFormAligner{
+    display: flex; 
+    flex-direction: row; 
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 4px; 
+    /* background-color: blue;  */
+}
+
+.registerFormDivider{
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;  
+    align-items: center;
+    /* background-color: red;  */
+}
+
+.registerTitle {
+    /* background-color: yellow;  */
+    margin: 20px;
+    margin-bottom: 5px;  
+    width: 40px; 
+    font-size: 2.0em;
+    font-family: "Reenie Beanie", cursive;
+}
+
+.registerInputContainer{
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: green;  */
+    font-family: "Reenie Beanie", cursive;
+    font-size: 1.4em;
+}
 .registerInput {
-    width: 100%;
-    height: 20%; 
+    width: 200px;
+    height: 40%; 
     border-radius: 20px;
-    font-size: 1em;
-    padding: 1px; 
-    margin: 0px; 
+    font-size: 70%;
+    padding: 3px; 
+    border: none;
+    font-family: "Reenie Beanie", cursive; 
+    background-color: rgb(209, 209, 209);
+    box-shadow: 1px 1px 2px 0px rgb(143, 141, 141);
 }
 
 label{
     font-size: 1.0em; 
-}
-
-.registerForm {
-    background-color: white;
-    width: 60%;
-    height: 80%;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    gap: 5px; 
 }
 
 
