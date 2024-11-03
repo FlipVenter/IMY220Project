@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Cookies from 'js-cookie';
 import '../../public/assets/profile.css'; // Ensure you import your CSS file
+import '../../public/assets/general.css'; // Ensure you import your CSS file
 import PlaylistSongs from '../components/PlaylistSongs'; // Import the PlaylistSongs component
 import PlaylistComments from '../components/PlaylistComments'; // Import the PlaylistComments component
 
@@ -22,6 +23,16 @@ class PlaylistPage extends Component {
 
     componentDidMount() {
         this.fetchPlaylistData();
+
+        // Ensure the element with ID 'containing' exists
+        const containingDiv = document.getElementById("containingDiv");
+        if (containingDiv) {
+            containingDiv.style.backgroundColor = "black";
+            containingDiv.style.backgroundImage = 'url(/assets/images/homePage.png)';
+            containingDiv.style.backgroundRepeat = 'no-repeat';
+            containingDiv.style.backgroundPosition = 'center center';
+            containingDiv.style.backgroundAttachment = 'fixed';
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -55,7 +66,8 @@ class PlaylistPage extends Component {
                 songs: data.songs || [], 
                 author: data.author,
                 comments: data.comments || [],
-                hasComments: data.comments && data.comments.length > 0
+                hasComments: data.comments && data.comments.length > 0,
+                editable: false
             });
 
             console.log("data.songs", data.songs);
@@ -77,7 +89,8 @@ class PlaylistPage extends Component {
 
     handleCommentSubmit = async (event) => {
         event.preventDefault();
-        const newComment = `${Cookies.get('username')}: ${this.state.comment}`;
+        const username = Cookies.get('username');
+        const newComment = `${username}: ${this.state.comment}`;
         const playlistName = this.state.name;
 
         try {
@@ -129,43 +142,114 @@ class PlaylistPage extends Component {
         }
     }
 
+    editPlaylist = () => {
+        let editButton = document.getElementById("editButton");
+        if (this.state.editable) {
+            editButton.innerHTML = "Edit";
+            this.updatePlaylist();
+        } else {
+            editButton.innerHTML = "Save";
+        }
+    }
+
+    updatePlaylist = async () => {
+        const playlistName = this.state.name;
+        const { name, description, img } = this.state;
+
+        try {
+            const response = await fetch(`/api/playlists/${playlistName}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, description, img })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Playlist updated successfully:', data);
+        } catch (error) {
+            console.error('Error updating playlist:', error);
+        }
+    }
+
     render() {
         return (
             <div className="PlaylistContainer">
-                <div className="playlistTitle">{this.state.name}</div>
-                <img className="playlistImage" src={this.state.img} alt="playlist" />
-                <div className="playlistDescription">{this.state.description}</div>
-                <div className="playlistAuthor">Created by: {this.state.author}</div>
-                <button className='addSongButton'>Add Songs</button>
-                {this.state.ownPlaylist && <button className='editPlaylistButton'>Edit</button>}
-                {!this.state.ownPlaylist && <button onClick={this.addFriend} className='addFriendButton'>Add Friend</button>}
+                <div className = "playlistInfoContainer">
+                    {/* <form> */}
+                        <img className="playlistImage" src={this.state.img} alt="playlist" />
+                        <div className='PlaylistDetailsContainer'>
+                            <div>
+                                <input 
+                                    className="playlistTitle"
+                                    value={this.state.name}
+                                    onChange={this.handleChange}
+                                    name = "name"
+                                    disabled={!this.state.ownPlaylist}  
+                                    />
+                            </div>
+                            <div>
+                                <label>Created by:</label>
+                                <input 
+                                    className="playlistAuthor"
+                                    value = {this.state.author}
+                                    onChange={this.handleChange}
+                                    name = "author"
+                                    />
+                                
+                            </div>
+                            <div>
+                                <input 
+                                    className="playlistDescription"
+                                    value={this.state.description}
+                                    onChange={this.handleChange}
+                                    name = "description"
+                                    />
+                            </div>
+                        </div>
+                        <div className = "buttonsContainer">
+                            <div className = "row">
+                                {this.state.ownPlaylist && <button onClick = {this.editPlaylist} id = "editButton" className='editPlaylistButton'>Edit</button>}
+                                <button className='addSongButton'>Add Songs</button>
+                                {!this.state.ownPlaylist && <button  onClick={this.addFriend} className='addFriendButton'>Add Friend</button>}   
+                            </div>
+                        </div>
+                    {/* </form> */}
+                </div>
                 <div className="playlistSongs">
                     {this.state.songs.map((song, index) => (
                         <PlaylistSongs key={index} _id={song} />
                     ))}
                 </div>
                 
-                {/* show comments */}
-                <div className="playlistComments">
-                    {!this.state.hasComments && <div>No comments yet</div>}
-                    {this.state.hasComments && <div>
-                        {this.state.comments.map((comment, index) => (
-                            <PlaylistComments key={index} comment={comment} />
-                        ))}
-                    </div>}
-                    <form onSubmit={this.handleCommentSubmit}>
-                        <input 
-                            type="text" 
-                            className="commentInput" 
-                            placeholder="Add a comment..." 
-                            name="comment" 
-                            value={this.state.comment} 
-                            onChange={this.handleChange} 
-                        />
-                        <button className="commentButton">Comment</button>
-                    </form>
-
-                </div>
+                 {/* show comments */}
+                <div className = "playlistCommentsContainer">
+                    <div className='userCommentsContainer'>
+                        {!this.state.hasComments && <div>No comments yet</div>}
+                        {this.state.hasComments && <div>
+                            {this.state.comments.map((comment, index) => (
+                                <PlaylistComments key={index} comment={comment} />
+                            ))}
+                        </div>}
+                    </div>
+                    <div className = "commentForm">
+                        <form  onSubmit={this.handleCommentSubmit}>
+                            <input 
+                                type="text" 
+                                className="commentInput" 
+                                placeholder="Add a comment..." 
+                                name="comment" 
+                                value={this.state.comment} 
+                                onChange={this.handleChange} 
+                            />
+                            <button className="commentButton">Comment</button>
+                        </form>
+                    </div>
+                </div> 
             </div>
         );
     }

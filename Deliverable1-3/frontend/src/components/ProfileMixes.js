@@ -43,14 +43,16 @@ class ProfileMixes extends React.Component {
     render() {
         return (
             <div className="profileMixesBox">
-                <div className="profileMixTitle">Mixes</div>
+                <div className="profileFriendsTitle">Mixes</div>
                 {/* <div className="profileMixOwnership">
                     <select>
                         <option value="own">Own</option>
                         <option value="others">Other's</option>
                     </select>
                 </div> */}
-                <button className="profileCreatePlaylist" onClick={this.createPlaylistFunction}>create</button>
+                <div className="createPlaylistContainer ">
+                    <button className="profileCreatePlaylist" onClick={this.createPlaylistFunction}>create</button>
+                </div>
                 {this.state.showCreatePlaylist && <CreatePlaylist hideCreatePlaylist={this.hideCreatePlaylist} />}
                 <div className="mixesMixesBox">
                     {this.state.playlists.map((mix, index) => (

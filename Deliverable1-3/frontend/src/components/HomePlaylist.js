@@ -21,8 +21,6 @@ class Playlists extends Component {
         this.setState({ name: newname });
     }
 
-    
-
     handleMoreClick = () => {
         //set current playlistname in cookies
         Cookies.set('currentPlaylist', this.state.name);
@@ -32,17 +30,20 @@ class Playlists extends Component {
     render() {
         return (
             <div className="playlist">
-                <img className="playlistimg" src={this.state.img} alt="playlist"></img>
+                <div className="imageContainer">
+                    <img className="playlistimg" src={this.state.img} alt="playlist"></img>
+                </div>
                 <div className="playlistInfo">
                     <div className="playlistName">{this.state.name}</div>
-                    <div className="playlistAuthor">{this.state.author}</div>
-                    <div className="playlistDescription">{this.state.description}</div>
+                    <div className="playlistAuthor" style={{ color: '#474747', fontWeight: '500' , fontSize: '0.9em'}}>{this.state.author}</div>
+                    <div className="playlistDescription" style={{ color: '#474747', fontWeight: '500' , fontSize: '0.9em' }}>{this.state.description}</div>
                 </div>
-                <div className="buttonContainer">
+                <div className="buttonContainer"> 
                     <Link to="/playlist"  
                         id={this.state._id} 
-                        className="playlistButton" 
                         onClick={this.handleMoreClick}
+                        style={{fontSize: '1.7em'}}
+                        className="playlistButton"
                     >
                         View
                     </Link>

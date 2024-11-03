@@ -39,6 +39,7 @@ class LoginPage extends React.Component {
 
         if (response.ok) {
             Cookies.set('LoggedIn', 'true');
+            console.log('Login successful');
             Cookies.set('username', username);
             this.props.navigate('/');
         } else {

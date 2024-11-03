@@ -12,7 +12,6 @@ class FriendsList extends React.Component {
     }
 
     componentDidMount() {
-        // Fetch the user's info based on the name passed in as a prop
         fetch(`/api/users/${this.state.name}`)
             .then(response => {
                 if (!response.ok) {
@@ -44,8 +43,12 @@ class FriendsList extends React.Component {
         return (
             <div className = "profileFriends">
                 <img className = "profileFriendsImage" src = {this.state.img} alt = "profile"></img>
-                <p className = "profileFriendsName">{this.state.name}</p>
-                <button className = "friendsButton">Visit</button>
+                <div className="nameContainer">
+                    <p className = "profileFriendsName">{this.state.name}</p>
+                </div>
+                <div className="buttonContainer">
+                    <button className = "friendsButton">Visit</button>
+                </div>
             </div>
         );
     }

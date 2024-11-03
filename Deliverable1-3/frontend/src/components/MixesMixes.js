@@ -9,7 +9,8 @@ class MixesMixes extends Component {
         super(props); 
         this.state = {
             name: props.name,
-            img: props.img
+            img: props.img,
+            author: props.author,
         }
     }
 
@@ -26,11 +27,17 @@ class MixesMixes extends Component {
 
         return (
             <div className="profileMixes">
-                <p className="profileMixesTitle">{this.state.name}</p>
-                {/* <p className="profileMixesAuthor">{author}</p> */}
                 <img className="profileMixesImage" src={this.state.img} alt="playlist" />
+                <div className="profileMixesTitle">
+                    <div className ="title">
+                        {this.state.name}
+                    </div>
+                    {/* <p className="profileMixesAuthor">{this.state.author}</p> */}
+                </div>
                 {/* <p className="profileMixesDescription">{description}</p> */}
-                <Link to="/playlist" className="mixesButton" onClick={this.handleViewClick}>View</Link>
+                <div className="mixesButtonContainer">
+                    <Link to="/playlist" className="mixesButton" onClick={this.handleViewClick}>View</Link>
+                </div>
             </div>
         );
     }

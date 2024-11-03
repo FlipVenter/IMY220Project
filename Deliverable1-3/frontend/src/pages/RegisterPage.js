@@ -73,8 +73,8 @@ class RegisterPage extends React.Component {
     render() {
         return (
             <div className="LoginContainer">
-                <form className="registerForm" onSubmit={this.handleSubmit}>
-                    <div className="registerTitle">Register</div>
+                <form className="loginForm" onSubmit={this.handleSubmit}>
+                    <div className="loginTitle">Register</div>
                     <div className="registerFormAligner">
                         <div className="registerFormDivider">
                             <div className="registerInputContainer">

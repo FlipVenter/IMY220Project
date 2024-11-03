@@ -1,4 +1,5 @@
 import React from 'react'
+import '../../public/assets/profile.css';
 
 class PlaylistComments extends React.Component {
     constructor(props) {
@@ -9,15 +10,12 @@ class PlaylistComments extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchComments();
     }
-
-
-
+    
     render() {
         return (
             <div className="commentContainer">
-                
+                {this.state.comment}
             </div>
         );
     }

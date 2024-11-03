@@ -29,8 +29,27 @@ const App = () => {
       navigate('/Splash');
     };
 
+    const getBackgroundStyle = () => {
+      switch (location.pathname) {
+          case '/Splash':
+              return { backgroundImage: 'url(/assets/images/splashPage.png)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center 70%', backgroundAttachment: 'fixed', backgroundSize: 'cover' };
+          case '/':
+              return { backgroundImage: 'url(/assets/images/homePage.png)',backgroundRepeat: 'no-repeat', backgroundPosition: 'center 70%', backgroundAttachment: 'fixed', backgroundSize: 'cover' };
+          case '/Profile':
+              return { backgroundImage: 'url(/assets/images/homePage.png)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundAttachment: 'fixed', backgroundSize: 'cover' };
+          case '/Playlist':
+              return { backgroundImage: 'url(/assets/images/homePage.png)', backgroundColor: 'black', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundAttachment: 'fixed', backgroundSize: 'cover' };
+          case '/Login':
+              return { backgroundImage: 'url(/assets/images/registerPage.png)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundAttachment: 'fixed', backgroundSize: 'cover' };
+          case '/Register':
+              return { backgroundImage: 'url(/assets/images/registerPage.png)', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundAttachment: 'fixed', backgroundSize: 'cover' };
+          default:
+              return { background: 'white' };
+      }
+  };
+
     return (
-      <div style={{ margin: "0px", padding: "0px", height: "100vh", width: "100vw" }}>
+      <div id = "containingDiv" style={{ ...getBackgroundStyle(),backgroundColor: 'black',  margin: "0px", padding: "0px", height: "100vh", width: "100vw" }}>
         {location.pathname !== '/Splash' && location.pathname !== '/Login' && location.pathname !== '/Register' && (
           <nav className="topRibbon">
             <div>
@@ -45,7 +64,7 @@ const App = () => {
               <Link to="/Profile">Profile</Link>
             </div>
             <div>
-              <button onClick={handleLogout}>Log Out</button>
+              <button className = "navButton" onClick={handleLogout}>Log Out</button>
             </div>
           </nav>
         )}
