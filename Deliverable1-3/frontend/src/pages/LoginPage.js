@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../public/assets/general.css';
 import '../../public/assets/login_register.css';
 import { Link } from 'react-router-dom';
 
